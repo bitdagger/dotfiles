@@ -1,0 +1,18 @@
+$TTL 1D
+@   IN  SOA ns1.local.dev. root.local.dev. (
+                    2014022201  ; serial (yyyymmdd##)
+                    8H      ; refresh
+                    4H      ; retry
+                    4W      ; expiry
+                    1D )        ; minimum ttl
+; Nameservers
+    IN  NS  ns1.local.dev.
+    IN  NS  ns2.local.dev.
+
+; Resolve nameservers to IP
+ns1 IN  A   127.0.0.1
+ns2 IN  A   127.0.0.1
+
+; A Records
+@   IN  A   127.0.0.1
+*   IN  A   127.0.0.1

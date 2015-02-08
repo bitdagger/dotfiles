@@ -1,0 +1,38 @@
+[user]
+	name = Matt Fields
+	email = mafields@ncsu.edu
+[alias]
+    # Better log
+	lg = log --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr)%Creset - %C(blue)%ae%Creset' --all
+
+    # Live status reports
+	livelog = "!while true; do clear; lines=$((`tput lines`-10)); if [[ -n $1 ]] ; then lines=$1; fi; git --no-pager lg | head -n $lines; sleep 1; done;" -
+	livestatus = "!while true; do clear; echo $PWD; git --no-pager status -sb; sleep 1; done;" -
+
+    # Temporary ignore
+	assume   = update-index --assume-unchanged
+	unassume = update-index --no-assume-unchanged
+	assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
+    unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
+    assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+
+    # Finding files by name and content
+    find = "!git ls-files | grep -i"
+    grep = "grep -Ii"
+
+    # List aliases
+    la = "!git config -l | grep alias | cut -c 7-"
+
+    # Get the last tag
+    lasttag = describe --tags --abbrev=0
+
+    # Merge conflict shortcuts
+    ours = "!f() { git co --ours $@ && git add $@; }; f"
+    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+
+    # List all the files currently being tracked
+    list-files = "ls-tree --full-tree -r --name-only HEAD"
+[color]
+	ui = auto
+[push]
+	default = matching

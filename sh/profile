@@ -1,0 +1,12 @@
+# Add ~/.local/bin to the PATH if it exists
+if [[ -d "${HOME}/.local/bin" ]]; then
+    PATH="${HOME}/.local/bin:${PATH}"
+fi
+
+# Load all supplementary scripts in ~/.profile.d
+if [ -d "${HOME}/.profile.d" ] ; then
+    for config in "${HOME}"/.profile.d/*.sh ; do
+        . "$config"
+    done
+fi
+unset -v config

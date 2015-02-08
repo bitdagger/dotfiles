@@ -1,0 +1,19 @@
+# General Settings
+audio_quality = high
+at_icon = @
+love_icon = ♥
+ban_icon = ☠
+volume = +1
+fifo = /tmp/pianobar
+
+# Authentication
+user = pandora@bitdagger.com
+password_command = pass pandora
+
+# Event command script
+#event_command = /home/mafields/.config/pianobar/eventcmd
+
+# Format strings
+format_nowplaying_song = [32m%t[0m by [34m%a[0m on [33m%l[0m [31m%r[0m%@%s]2;pianobar - %t by %a
+format_nowplaying_station = Station [35m%n[0m [1;30m(%i)[0m
+format_list_song = [1;30m%i[0m [32m%t[0m by [34m%a[0m [31m%r[0m
