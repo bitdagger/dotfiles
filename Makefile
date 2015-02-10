@@ -34,6 +34,7 @@ distclean : clean-bash \
 			clean-gnupg \
 			clean-history \
 			clean-nano \
+			clean-pianobar \
 			clean-sh \
 			clean-ssh \
 			clean-tmux
