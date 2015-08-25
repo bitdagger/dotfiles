@@ -1,6 +1,6 @@
 # Abort if there's no version information (<2.0)
 if ! test "$BASH_VERSINFO" ; then
-	return
+    return
 fi
 
 # Clear console if possible when logging out

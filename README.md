@@ -1,4 +1,4 @@
-# Dotfiles (Matt Fields)
+# Dotfiles (Matt Fields)  
 
 Personal repository of dotfiles. This is for those settings that migrate well
 from machine to machine and that I consider safe to publish. You’re welcome to
@@ -71,8 +71,7 @@ Keep in mind that this will remove everything entirely, even if you've made
 any changes of your own. Run `make -n distclean` to see what it will remove 
 before you commit to running the clean.
 
-License
--------
+# License  
 
 Public domain; see the included `UNLICENSE` file. It’s just configuration, do
 whatever you like with it if any of it’s useful to you. 
