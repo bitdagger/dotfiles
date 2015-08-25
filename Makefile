@@ -86,10 +86,8 @@ install : install-bash \
 		  install-gnupg \
 		  install-history \
 		  install-nano \
-		  install-pianobar \
 		  install-sh \
 		  install-ssh \
-		  install-sublime3 \
 		  install-tmux
 
 install-bash : test-bash
