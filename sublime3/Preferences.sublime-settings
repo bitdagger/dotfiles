@@ -1,0 +1,14 @@
+{
+	"color_scheme": "Packages/Color Scheme - Default/Cobalt.tmTheme",
+	"font_face": "Dejavu Sans Mono",
+	"font_size": 12,
+	"translate_tabs_to_spaces": true,
+    "always_show_minimap_viewport": true,
+    "highlight_line": true,
+    "ensure_newline_at_eof_on_save": true,
+    "auto_close_tags": false,
+    "shift_tab_unindent": true,
+    "enable_tab_scrolling": false,
+    "hot_exit": false,
+    "rulers": [80],
+}

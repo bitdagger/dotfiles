@@ -9,6 +9,7 @@
 		 clean-pianobar \
 		 clean-sh \
 		 clean-ssh \
+		 clean-sublime3 \
 		 clean-tmux \
 		 install \
 		 install-bash \
@@ -18,15 +19,18 @@
 		 install-nano \
 		 install-pianobar \
 		 install-sh \
+		 install-sublime3 \
+		 install-tmux \
 		 test \
 		 test-bash \
 		 test-sh
 
 all :
-	@echo "Sup"
+	@echo "Use make install to install"
+	@echo "Check with make -n install to see what will be installed"
 
 clean :
-	@echo "Use distclean to clean"
+	@echo "Use make distclean to clean"
 	@echo "Check with make -n distclean to see what will be removed"
 
 distclean : clean-bash \
@@ -37,6 +41,7 @@ distclean : clean-bash \
 			clean-pianobar \
 			clean-sh \
 			clean-ssh \
+			clean-sublime3 \
 			clean-tmux
 
 clean-bash :
@@ -70,6 +75,9 @@ clean-sh :
 clean-ssh :
 	rm -f "$(HOME)"/.ssh/config
 
+clean-sublime3 :
+	rm -f "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+
 clean-tmux :
 	rm -f "$(HOME)"/.tmux.conf
 
@@ -81,6 +89,7 @@ install : install-bash \
 		  install-pianobar \
 		  install-sh \
 		  install-ssh \
+		  install-sublime3 \
 		  install-tmux
 
 install-bash : test-bash
@@ -119,6 +128,10 @@ install-sh : test-sh
 install-ssh :
 	install -m 0700 -d -- "$(HOME)"/.ssh
 	install -m 0600 -- ssh/config "$(HOME)"/.ssh/config
+
+install-sublime3 :
+	install -m 0755 -d -- "$(HOME)"/.config/sublime-text-3/Packages/User/
+	install -m 0644 -- sublime3/Preferences.sublime-settings "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
 
 install-tmux :
 	install -m 0644 -- tmux/tmux.conf "$(HOME)"/.tmux.conf
