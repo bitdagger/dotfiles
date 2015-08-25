@@ -6,3 +6,5 @@ sudo() {
         command sudo -H "$@"
     fi
 }
+
+alias sudo='sudo '
