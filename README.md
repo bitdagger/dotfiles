@@ -27,7 +27,7 @@ $
 
 It expands based on context to include the number of active jobs (after memoryUsage), 
 a git info section (before pwd) and if the last exit status was non-zero, a red X 
-(adter pwd).  
+(after pwd).  
 
 Additionally the prompt will re-color itself to red if being used by the superuser, 
 and the user@Host section will re-color itself bold-red with the main prompt color 
