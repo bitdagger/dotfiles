@@ -93,7 +93,7 @@ prompt() {
                 hostname="[\[${white}${bold}\]\u@\H\[${reset}${pcolor}\]]"
             fi
 
-            local Line1="\[${pcolor}\]${corner1}${dash}[\[$white$bold\]\t\[$reset$pcolor\]]${dash}${hostname}${dash}\$(prompt cpu)${dash}\$(prompt memory)\$(prompt jobs)"
+            local Line1="\[${pcolor}\]${corner1}${dash}[\[$white$bold\]\t\[$reset$pcolor\]]${dash}${hostname}${dash}\$(prompt cpu)${dash}\$(prompt memory)\$(prompt jobs)\$(prompt battery)"
             local Line2="\[${pcolor}\]${midpipe}${dash}\$(prompt git)[\[${white}${bold}\]\${PWD}\[${reset}${pcolor}\]]\$(prompt error)"
             local CVSLine=""
             local Line3="\[${pcolor}\]${corner2}${dash}\$ "
@@ -139,6 +139,30 @@ prompt() {
                 echo -ne "\xE2\x94\x80"
                 echo "[${white}${bold}${jobc} Jobs${reset}${pcolor}]"
             fi
+            ;;
+        
+        # Battery block
+        battery)
+            # Bail if we have no upower. We can use /sys/ info, but screw that
+            if ! hash upower 2>/dev/null ; then
+                return 1
+            fi
+
+            # Bail if we have no battery
+            if [[ -z $(upower -e | grep -i battery) ]]; then
+                return 1
+            fi
+
+            discharging=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -i state | grep discharging)
+            percentage=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -i percent | awk '{print $2}')
+            if [[ -z "${discharging}" ]]; then
+                chargestatus="\xe2\x9a\xa1";
+            else
+                chargestatus="";
+            fi
+
+            echo -ne "\xE2\x94\x80"
+            echo -e "[${white}${bold}${chargestatus}${percentage}${reset}${pcolor}]"
             ;;
 
         # Error block
