@@ -30,7 +30,7 @@ prompt() {
             tput md || tput bold
         } 2>/dev/null )
 
-    # Set the blue and green colors based on the number of colors the terminal supports
+    # Set the colors based on the number of colors the terminal supports
     local blue
     local green
     if ((colors == 256)) ; then
@@ -70,7 +70,7 @@ prompt() {
     local pcolor=${blue}
     if [[ ${EUID} == 0 ]] ; then
         pcolor=${red}   # Root gets red
-    elif [ $SESSION_TYPE == "ssh" ]; then
+    elif [ ${SESSION_TYPE} == "ssh" ]; then
         pcolor=${green} # SSH gets green
     fi
 
@@ -93,18 +93,24 @@ prompt() {
                 hostname="[\[${white}${bold}\]\u@\H\[${reset}${pcolor}\]]"
             fi
 
-            local Line1="\[${pcolor}\]${corner1}${dash}[\[$white$bold\]\t\[$reset$pcolor\]]${dash}${hostname}${dash}\$(prompt cpu)${dash}\$(prompt memory)\$(prompt jobs)\$(prompt battery)"
-            local Line2="\[${pcolor}\]${midpipe}${dash}\$(prompt git)[\[${white}${bold}\]\${PWD}\[${reset}${pcolor}\]]\$(prompt error)"
-            local CVSLine=""
+            local Line1="\[${pcolor}\]${corner1}${dash}[\[$white$bold\]\t"
+            Line1="${Line1}\[$reset$pcolor\]]${dash}${hostname}"
+            Line1="${Line1}${dash}\$(prompt cpu)${dash}\$(prompt memory)"
+            Line1="${Line1}\$(prompt jobs)\$(prompt battery)\$(prompt wifi)"
+
+            local Line2="\[${pcolor}\]${midpipe}${dash}\$(prompt git)["
+            Line2="${Line2}\[${white}${bold}\]\${PWD}\[${reset}${pcolor}\]]"
+            Line2="${Line2}\$(prompt error)"
+
             local Line3="\[${pcolor}\]${corner2}${dash}\$ "
 
-            PS1="\n${Line1}\n${Line2}\n${CVSLine}${Line3}\[${reset}\]"
+            PS1="\n${Line1}\n${Line2}\n${Line3}\[${reset}\]"
             PS2='> '
             PS3='? '
             PS4='+ '
             ;;
 
-        # Revert to simple inexpensive prompts
+        # Revert to simple inexpensive prompt
         off)
             unset -v PROMPT_COMMAND PROMPT_DIRTRIM PROMPT_RETURN
             PROMPT_COLOR='35;1m'
@@ -163,6 +169,22 @@ prompt() {
 
             echo -ne "\xE2\x94\x80"
             echo -e "[${white}${bold}${chargestatus}${percentage}${reset}${pcolor}]"
+            ;;
+
+        # Wifi block
+        wifi)
+            if [[ -z $(ls /proc/net/wireless) ]]; then
+                return 1
+            fi
+            local interface=$(cat /proc/net/wireless | tail -n 1 | awk '{print $1}' | rev | cut -c 2- | rev)
+            if [[ "${interface}" == "fac" ]]; then
+                return 1
+            fi
+            local wifistrength=$(awk 'NR==3 {print $3 "00 %"}''' /proc/net/wireless | rev | cut -c 6- | rev)
+            local ssid=$(iw dev ${interface} link | grep SSID | awk 'NR==1 {print $2}')
+
+            echo -ne "\xE2\x94\x80"
+            echo "[${white}${bold}${ssid}:${wifistrength}%${reset}${pcolor}]"
             ;;
 
         # Error block
