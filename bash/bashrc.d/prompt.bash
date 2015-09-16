@@ -110,6 +110,39 @@ prompt() {
             PS4='+ '
             ;;
 
+        # Simpler, but still pretty prompt
+        simple)
+            PROMPT_COMMAND='declare -i PROMPT_RETURN=$?'
+            PROMPT_COLOR='35;1m'
+
+            # If Bash 4.0 is available, trim very long paths in prompt
+            if ((BASH_VERSINFO[0] >= 4)) ; then
+                PROMPT_DIRTRIM=4
+            fi
+
+            # Set the hostname color to red if we're ssh'd, white otherwise
+            local hostname
+            if [ $SESSION_TYPE == "ssh" ]; then
+                hostname="[\[${red}${bold}\]\u@\H\[${reset}${pcolor}\]]"
+            else
+                hostname="[\[${white}${bold}\]\u@\H\[${reset}${pcolor}\]]"
+            fi
+
+            local Line1="\[${pcolor}\]${corner1}${dash}[\[$white$bold\]\t"
+            Line1="${Line1}\[$reset$pcolor\]]${dash}${hostname}"
+
+            local Line2="\[${pcolor}\]${midpipe}${dash}\$(prompt git)["
+            Line2="${Line2}\[${white}${bold}\]\${PWD}\[${reset}${pcolor}\]]"
+            Line2="${Line2}\$(prompt error)"
+
+            local Line3="\[${pcolor}\]${corner2}${dash}\$ "
+
+            PS1="\n${Line1}\n${Line2}\n${Line3}\[${reset}\]"
+            PS2='> '
+            PS3='? '
+            PS4='+ '
+            ;;
+
         # Revert to simple inexpensive prompt
         off)
             unset -v PROMPT_COMMAND PROMPT_DIRTRIM PROMPT_RETURN
