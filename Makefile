@@ -19,7 +19,8 @@
 		 install \
 		 test \
 		 install-pianobar \
-		 install-sublime3
+		 install-sublime3 \
+		 install-X
 
 
 # ----------------------------------------------------------------
@@ -31,6 +32,7 @@ all :
 	@echo "The following optional packages are also available:"
 	@echo " - 'make install-pianobar'"
 	@echo " - 'make install-sublime3'"
+	@echo " - 'make install-X'"
 
 
 # ----------------------------------------------------------------
@@ -39,6 +41,10 @@ all :
 clean :
 	@echo "Use make distclean to clean"
 	@echo "Check with make -n distclean to see what will be removed"
+	@echo "The following optional packages are also available to clean:"
+	@echo " - 'make clean-pianobar'"
+	@echo " - 'make clean-sublime3'"
+	@echo " - 'make clean-X'"
 
 
 # ----------------------------------------------------------------
@@ -60,9 +66,6 @@ distclean :
 #	Nano
 	rm -f "$(HOME)"/.nanorc
 
-#	Pianobar
-	rm -Rf "$(HOME)"/.config/pianobar
-
 #	History
 	rm -f "$(HOME)"/.history
 	rm -f "$(HOME)"/.recently_used
@@ -78,13 +81,26 @@ distclean :
 #	SSH
 	rm -f "$(HOME)"/.ssh/config
 
-#	Sublime3
-#	This one is annoying because of the deep directory structure, but we 
-#	might want to keep Sublime installed and just remove the config...
-	rm -f "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
-
 #	Tmux
 	rm -f "$(HOME)"/.tmux.conf
+
+
+# ----------------------------------------------------------------
+# Optional Cleans
+# ----------------------------------------------------------------
+clean-sublime3 : 
+	rm -f "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+
+
+clean-pianobar : 
+	rm -Rf "$(HOME)"/.config/pianobar
+
+
+clean-X : 
+	rm -f "$(HOME)"/.xinitrc
+	rm -f "$(HOME)"/.xscreensaver
+	rm -f "$(HOME)"/.config/xfce4/terminal/darkglow.jpg
+	rm -f "$(HOME)"/.config/xfce4/terminal/terminalrc
 
 
 # ----------------------------------------------------------------
@@ -158,3 +174,10 @@ install-pianobar :
 install-sublime3 :
 	@install -m 0755 -d -- "$(HOME)"/.config/sublime-text-3/Packages/User/
 	@install -m 0644 -- sublime3/Preferences.sublime-settings "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+
+install-X :
+	@install -m 0755 -d -- "$(HOME)"/.config/xfce4/terminal/
+	@install -m 0644 -- X/xinitrc "$(HOME)"/.xinitrc
+	@install -m 0644 -- X/xscreensaver "$(HOME)"/.xscreensaver
+	@install -m 0644 -- X/xfce4/darkglow.jpg "$(HOME)"/.config/xfce4/terminal/darkglow.jpg
+	@install -m 0644 -- X/xfce4/terminalrc "$(HOME)"/.config/xfce4/terminal/terminalrc

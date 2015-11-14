@@ -18,6 +18,6 @@ MiscHighlightUrls=TRUE
 BackgroundDarkness=0.000000
 ScrollingBar=TERMINAL_SCROLLBAR_NONE
 Encoding=UTF-8
-BackgroundImageFile=/home/mafields/.config/xfce4/terminal/darkglow.jpg
+BackgroundImageFile=./.config/xfce4/terminal/darkglow.jpg
 BackgroundImageStyle=TERMINAL_BACKGROUND_STYLE_STRETCHED
 BackgroundMode=TERMINAL_BACKGROUND_IMAGE
