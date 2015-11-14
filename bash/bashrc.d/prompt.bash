@@ -16,7 +16,7 @@ __pre_prompt() {
     # Error flag
     PROMPT_DATA[0]=''
     if ((PROMPT_RETURN > 0)) ; then
-        PROMPT_DATA[0]="${dash}[${PROMPT_COLOR_DATA[3]}${bold}${PROMPT_SYMBOL_DATA[4]}${reset}${pcolor}]"
+        PROMPT_DATA[0]="${dash}[${PROMPT_COLOR_DATA[3]}${bold}${PROMPT_SYMBOL_DATA[4]} - ${PROMPT_RETURN}${reset}${pcolor}]"
     fi
 
     PROMPT_DATA[1]=${PWD/#$HOME/\~} # PWD with home dir abbreviated
