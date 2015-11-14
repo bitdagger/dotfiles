@@ -17,10 +17,14 @@
 		 clean \
 		 distclean \
 		 install \
+		 copy \
 		 test \
 		 install-pianobar \
 		 install-sublime3 \
-		 install-X
+		 install-X \
+		 copy-pianobar \
+		 copy-sublime3 \
+		 copy-X
 
 
 # ----------------------------------------------------------------
@@ -33,6 +37,7 @@ all :
 	@echo " - 'make install-pianobar'"
 	@echo " - 'make install-sublime3'"
 	@echo " - 'make install-X'"
+	@echo "Use 'make copy' to copy existing config to the repo"
 
 
 # ----------------------------------------------------------------
@@ -181,3 +186,48 @@ install-X :
 	@install -m 0644 -- X/xscreensaver "$(HOME)"/.xscreensaver
 	@install -m 0644 -- X/xfce4/darkglow.jpg "$(HOME)"/.config/xfce4/terminal/darkglow.jpg
 	@install -m 0644 -- X/xfce4/terminalrc "$(HOME)"/.config/xfce4/terminal/terminalrc
+
+# ----------------------------------------------------------------
+# Copy existing config to the repo
+# ----------------------------------------------------------------
+copy : 
+#	Bash
+	@install -m 0644 -- "$(HOME)"/.bashrc bash/bashrc
+	@install -m 0644 -- "$(HOME)"/.bashrc.d/* bash/bashrc.d
+	@install -m 0644 -- "$(HOME)"/.bash_profile bash/bash_profile 
+	@install -m 0644 -- "$(HOME)"/.bash_logout bash/bash_logout
+
+#	Git
+	@install -m 0644 -- "$(HOME)"/.gitconfig git/gitconfig
+
+# 	GNUPG
+	@install -m 0600 -- "$(HOME)"/.gnupg/*.conf gnupg
+
+# 	Nano
+	@install -m 0644 -- "$(HOME)"/.nanorc nano/nanorc
+
+# 	Shell
+	@install -m 0644 -- "$(HOME)"/.profile sh/profile
+	@install -m 0644 -- "$(HOME)"/.profile.d/* sh/profile.d
+
+# 	SSH
+	@install -m 0600 -- "$(HOME)"/.ssh/config ssh/config
+
+# 	Tmux
+	@install -m 0644 -- "$(HOME)"/.tmux.conf tmux/tmux.conf
+
+# ----------------------------------------------------------------
+# Optional Copies
+# ----------------------------------------------------------------
+
+copy-pianobar :
+	@install -m 0644 -- "$(HOME)"/.config/pianobar/config pianobar/config
+	@install -m 0755 -- "$(HOME)"/.config/pianobar/eventcmd pianobar/eventcmd
+
+copy-sublime3 :
+	@install -m 0644 -- "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings sublime3/Preferences.sublime-settings
+
+copy-X :
+	@install -m 0644 -- "$(HOME)"/.xinitrc X/xinitrc
+	@install -m 0644 -- "$(HOME)"/.xscreensaver X/xscreensaver
+	@install -m 0644 -- "$(HOME)"/.config/xfce4/terminal/terminalrc X/xfce4/terminalrc
