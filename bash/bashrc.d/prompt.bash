@@ -135,7 +135,7 @@ prompt() {
         git)
             # If no arguments, output the help
             if [[ ! $2 ]] ; then
-                echo "DEBUG"
+                echo "Usage: prompt git <on|off>"
                 return
             fi
 
