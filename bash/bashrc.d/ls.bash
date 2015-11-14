@@ -19,8 +19,8 @@ lsopts() {
 }
 
 # Alias ls with these options
-alias ls="ls $(lsopts) -l"
-alias la="ls $(lsopts) -la"
+alias ls="ls $(lsopts) -lh"
+alias la="ls -A"
 
 # Unset helper function
 unset -f lsopts

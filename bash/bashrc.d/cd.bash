@@ -37,5 +37,34 @@ __cd() {
 alias cd="__cd"
 
 # Quick navigation
-alias ..="cd .."
+..() {
+    local arg=${1:-1};
+    local dir=""
+    while [ $arg -gt 0 ]; do
+        dir="../$dir"
+        arg=$(($arg - 1));
+    done
+    cd $dir >&/dev/null
+}
+
+...() {
+    if [ -z "$1" ]; then
+        return
+    fi
+    local maxlvl=16
+    local dir=$1
+    while [ $maxlvl -gt 0 ]; do
+        dir="../$dir"
+        maxlvl=$(($maxlvl - 1));
+        if [ -d "$dir" ]; then
+            cd $dir >&/dev/null
+        fi
+    done
+}
+
+#cd to dir of defined file | Usage: cdf <file>
+cdf() { 
+  cd "$(dirname "$(locate -i "$*" | head -n 1)")";
+}
+
 alias -- -="cd -"
