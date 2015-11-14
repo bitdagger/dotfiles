@@ -230,7 +230,7 @@ prompt() {
     # Set titlebar info if xterm/rxvt
     case $TERM in
         xterm*|rxvt*)
-            local TITLEBAR='\[\033]0;\u@\h (\w) [${COLUMNS}x${LINES}]\007\]';;
+            local TITLEBAR='\[\033]0;\u@\h:\l (\w) [${COLUMNS}x${LINES}]\007\]';;
         *)
             local TITLEBAR="";;
     esac
@@ -259,7 +259,7 @@ prompt() {
 
             local Line1="${TITLEBAR}\[${pc}\]${c1}${d}"                         # Graphics
             Line1="${Line1}[\[${pfc}${b}\]\t\[${r}${pc}\]]${d}"                 # Current time
-            Line1="${Line1}[\[${hc}${b}\]\u@\H\[${r}${pc}\]]"                   # Hostname
+            Line1="${Line1}[\[${hc}${b}\]\u@\H:\l\[${r}${pc}\]]"                   # Hostname
             Line1="${Line1}${d}[\[${pfc}${b}\]\${PROMPT_DATA[3]}\[${r}${pc}\]]" # CPU Usage
             Line1="${Line1}${d}[\[${pfc}${b}\]\${PROMPT_DATA[4]}\[${r}${pc}\]]" # Memory Usage
             Line1="${Line1}\${PROMPT_DATA[5]}"                                  # Jobs
