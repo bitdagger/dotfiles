@@ -1,153 +1,160 @@
+#
+# Makefile
+# 
+# Things should be fairly strightforward. Use the following to do stuff:
+#
+# make = Display a welcome message
+# make install = Install the files
+# make clean = Display a message telling you to use distclean
+# make distclean = Remove all installed files
+#
+
+
+# ----------------------------------------------------------------
+# Define phony targets
+# ----------------------------------------------------------------
 .PHONY : all \
 		 clean \
 		 distclean \
-		 clean-bash \
-		 clean-git \
-		 clean-gnupg \
-		 clean-history \
-		 clean-nano \
-		 clean-pianobar \
-		 clean-sh \
-		 clean-ssh \
-		 clean-sublime3 \
-		 clean-tmux \
 		 install \
-		 install-bash \
-		 install-git \
-		 install-gnupg \
-		 install-history \
-		 install-nano \
-		 install-pianobar \
-		 install-sh \
-		 install-sublime3 \
-		 install-tmux \
 		 test \
-		 test-bash \
-		 test-sh
+		 install-pianobar \
+		 install-sublime3
 
+
+# ----------------------------------------------------------------
+# Default action
+# ----------------------------------------------------------------
 all :
-	@echo "Use make install to install"
-	@echo "Check with make -n install to see what will be installed"
+	@echo "Use 'make install' to install"
+	@echo "Check with 'make -n install' to see what will be installed"
+	@echo "The following optional packages are also available:"
+	@echo " - 'make install-pianobar'"
+	@echo " - 'make install-sublime3'"
 
+
+# ----------------------------------------------------------------
+# Just print a message so we don't accidentally delete stuff
+# ----------------------------------------------------------------
 clean :
 	@echo "Use make distclean to clean"
 	@echo "Check with make -n distclean to see what will be removed"
 
-distclean : clean-bash \
-			clean-git \
-			clean-gnupg \
-			clean-history \
-			clean-nano \
-			clean-pianobar \
-			clean-sh \
-			clean-ssh \
-			clean-sublime3 \
-			clean-tmux
 
-clean-bash :
+# ----------------------------------------------------------------
+# Actually delete everything we have installed
+# ----------------------------------------------------------------
+distclean : 
+#	Bash
 	rm -f "$(HOME)"/.bashrc
 	rm -f "$(HOME)"/.bash_bash_profile
 	rm -f "$(HOME)"/.bash_logout
 	rm -Rf "$(HOME)"/.bash.d
 
-clean-git :
+#	Git
 	rm -f "$(HOME)"/.gitconfig
 
-clean-gnupg :
+#	GNUPG
 	rm -f "$(HOME)"/.gnupg/*.conf
 
-clean-nano :
+#	Nano
 	rm -f "$(HOME)"/.nanorc
 
-clean-pianobar :
+#	Pianobar
 	rm -Rf "$(HOME)"/.config/pianobar
 
-clean-history :
+#	History
 	rm -f "$(HOME)"/.history
 	rm -f "$(HOME)"/.recently_used
 	rm -f "$(HOME)"/.mysql_history
 	rm -f "$(HOME)"/.bash_history
+	rm -f "$(HOME)"/.python_history
+	rm -f "$(HOME)"/.sqlite_history
 
-clean-sh :
+#	Shell
 	rm -f "$(HOME)"/.profile
 	rm -Rf "$(HOME)"/.profile.d
 
-clean-ssh :
+#	SSH
 	rm -f "$(HOME)"/.ssh/config
 
-clean-sublime3 :
+#	Sublime3
+#	This one is annoying because of the deep directory structure, but we 
+#	might want to keep Sublime installed and just remove the config...
 	rm -f "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
 
-clean-tmux :
+#	Tmux
 	rm -f "$(HOME)"/.tmux.conf
 
-install : install-bash \
-		  install-git \
-		  install-gnupg \
-		  install-history \
-		  install-nano \
-		  install-sh \
-		  install-ssh \
-		  install-tmux
 
-install-bash : test-bash
-	install -m 0755 -d -- "$(HOME)"/.bashrc.d
-	install -m 0644 -- bash/bashrc "$(HOME)"/.bashrc
-	install -m 0644 -- bash/bashrc.d/* "$(HOME)"/.bashrc.d
-	install -m 0644 -- bash/bash_profile "$(HOME)"/.bash_profile
-	install -m 0644 -- bash/bash_logout "$(HOME)"/.bash_logout
+# ----------------------------------------------------------------
+# Actually install all the core configuration files
+# ----------------------------------------------------------------
+install : test
+#	Bash
+	@install -m 0755 -d -- "$(HOME)"/.bashrc.d
+	@install -m 0644 -- bash/bashrc "$(HOME)"/.bashrc
+	@install -m 0644 -- bash/bashrc.d/* "$(HOME)"/.bashrc.d
+	@install -m 0644 -- bash/bash_profile "$(HOME)"/.bash_profile
+	@install -m 0644 -- bash/bash_logout "$(HOME)"/.bash_logout
 
-install-git :
-	install -m 0644 -- git/gitconfig "$(HOME)"/.gitconfig
+#	Git
+	@install -m 0644 -- git/gitconfig "$(HOME)"/.gitconfig
 
-install-gnupg :
-	install -m 0700 -d -- "$(HOME)"/.gnupg
-	install -m 0600 -- gnupg/*.conf "$(HOME)"/.gnupg
+# 	GNUPG
+	@install -m 0700 -d -- "$(HOME)"/.gnupg
+	@install -m 0600 -- gnupg/*.conf "$(HOME)"/.gnupg
 
-install-history :
-	ln -sfn /dev/null "$(HOME)"/.history
-	ln -sfn /dev/null "$(HOME)"/.recently_used
-	ln -sfn /dev/null "$(HOME)"/.mysql_history
-	ln -sfn /dev/null "$(HOME)"/.bash_history
+# 	History
+	@ln -sf /dev/null "$(HOME)"/.history
+	@ln -sf /dev/null "$(HOME)"/.recently_used
+	@ln -sf /dev/null "$(HOME)"/.mysql_history
+	@ln -sf /dev/null "$(HOME)"/.python_history
+	@ln -sf /dev/null "$(HOME)"/.sqlite_history
+	@ln -sf /dev/null "$(HOME)"/.bash_history
 
-install-nano :
-	install -m 0644 -- nano/nanorc "$(HOME)"/.nanorc
+# 	Nano
+	@install -m 0644 -- nano/nanorc "$(HOME)"/.nanorc
 
-install-pianobar :
-	install -m 0755 -d -- "$(HOME)"/.config/pianobar
-	install -m 0644 -- pianobar/config "$(HOME)"/.config/pianobar/config
-	install -m 0755 -- pianobar/eventcmd "$(HOME)"/.config/pianobar/eventcmd
+# 	Shell
+	@install -m 0755 -d -- "$(HOME)"/.profile.d
+	@install -m 0644 -- sh/profile "$(HOME)"/.profile
+	@install -m 0644 -- sh/profile.d/* "$(HOME)"/.profile.d
 
-install-sh : test-sh
-	install -m 0755 -d -- "$(HOME)"/.profile.d
-	install -m 0644 -- sh/profile "$(HOME)"/.profile
-	install -m 0644 -- sh/profile.d/* "$(HOME)"/.profile.d
+# 	SSH
+	@install -m 0700 -d -- "$(HOME)"/.ssh
+	@install -m 0600 -- ssh/config "$(HOME)"/.ssh/config
 
-install-ssh :
-	install -m 0700 -d -- "$(HOME)"/.ssh
-	install -m 0600 -- ssh/config "$(HOME)"/.ssh/config
+# 	Tmux
+	@install -m 0644 -- tmux/tmux.conf "$(HOME)"/.tmux.conf
 
-install-sublime3 :
-	install -m 0755 -d -- "$(HOME)"/.config/sublime-text-3/Packages/User/
-	install -m 0644 -- sublime3/Preferences.sublime-settings "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
-
-install-tmux :
-	install -m 0644 -- tmux/tmux.conf "$(HOME)"/.tmux.conf
-
-test : test-bash test-sh
-
-test-bash :
-	@for bash in bash/* bash/bashrc.d/* ; do \
-		if [ -f "$$bash" ] && ! bash -n "$$bash" ; then \
-			exit 1 ; \
-		fi \
-	done
-	@echo "All bash(1) scripts parsed successfully."
-
-test-sh :
+# ----------------------------------------------------------------
+# Test scripts
+# ----------------------------------------------------------------
+test : 
+#	Shell
 	@for sh in sh/* sh/profile.d/* ; do \
 		if [ -f "$$sh" ] && ! sh -n "$$sh" ; then \
 			exit 1 ; \
 		fi \
 	done
-	@echo "All sh(1) scripts parsed successfully."
+
+#	Bash
+	@for bash in bash/* bash/bashrc.d/* ; do \
+		if [ -f "$$bash" ] && ! bash -n "$$bash" ; then \
+			exit 1 ; \
+		fi \
+	done
+
+# ----------------------------------------------------------------
+# Optional Installs
+# ----------------------------------------------------------------
+
+install-pianobar :
+	@install -m 0755 -d -- "$(HOME)"/.config/pianobar
+	@install -m 0644 -- pianobar/config "$(HOME)"/.config/pianobar/config
+	@install -m 0755 -- pianobar/eventcmd "$(HOME)"/.config/pianobar/eventcmd
+
+install-sublime3 :
+	@install -m 0755 -d -- "$(HOME)"/.config/sublime-text-3/Packages/User/
+	@install -m 0644 -- sublime3/Preferences.sublime-settings "$(HOME)"/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
