@@ -189,7 +189,7 @@ prompt() {
         color_data[5]=$( {
             tput AF 82 || tput setaf 82 || tput AF 82 0 0 || tput setaf 82 0 0
         } 2>/dev/null )
-    elif ((colors == 8)) ; then
+    elif ((icolors == 8)) ; then
         color_data[4]=$( {
             tput AF 4 || tput setaf 4
         } 2>/dev/null )
