@@ -14,6 +14,11 @@ lsopts() {
         lsopts=("${lsopts[@]}" --color=auto)
     fi
 
+    # If we support grouping directories first, do it
+    if [[ ${lshelp} == *--group-directories-first* ]]; then
+        lsopts=("${lsopts[@]}" --group-directories-first)
+    fi
+
     # Print the options as a single string, space-delimited
     printf %s "${lsopts[*]}"
 }
