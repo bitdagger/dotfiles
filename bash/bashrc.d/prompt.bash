@@ -31,7 +31,7 @@ __pre_prompt() {
             PROMPT_DATA[2]=""
         else
             # Try to use the gitprompt script
-            if [[ $(type -t "__git_ps1") ]]; then
+            if [[ $(command type -t "__git_ps1") ]]; then
                 GIT_PS1_SHOWUPSTREAM="verbose"
                 local GitData=$(__git_ps1 | sed -e 's/^ *//' -e 's/ *$//')
                 if [[ -z $GitData ]]; then
@@ -303,7 +303,7 @@ prompt() {
             Line1="${Line1}[\[${hc}${b}\]\u@\H\[${r}${pc}\]]"                   # Hostname
 
             local Line2="\[${pc}\]${pipe}${d}\${PROMPT_DATA[2]}"                # Git Prompt
-            Line2="${Line2}\[${pfc}${b}\]\${PROMPT_DATA[1]}\[${r}${pc}\]]"      # PWD
+            Line2="${Line2}[\[${pfc}${b}\]\${PROMPT_DATA[1]}\[${r}${pc}\]]"     # PWD
             Line2="${Line2}\${PROMPT_DATA[0]}"                                  # Error
 
             local Line3="\[${pc}\]${c2}${d}\$ "
