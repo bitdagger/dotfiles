@@ -3,7 +3,7 @@
     email = mafields@ncsu.edu
 [alias]
     # Better log
-    lg = log --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr)%Creset - %C(blue)%ae%Creset' --all
+    lg = log --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr)%Creset - %C(blue)%ae%Creset'
 
     # Live status reports
     livelog = "!while true; do clear; lines=$((`tput lines`-10)); if [[ -n $1 ]] ; then lines=$1; fi; git --no-pager lg | head -n $lines; sleep 1; done;" -
@@ -27,8 +27,8 @@
     lasttag = describe --tags --abbrev=0
 
     # Merge conflict shortcuts
-    ours = "!f() { git co --ours $@ && git add $@; }; f"
-    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+    ours = "!f() { git checkout --ours $@ && git add $@; }; f"
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
     # List all the files currently being tracked
     list-files = "ls-tree --full-tree -r --name-only HEAD"
